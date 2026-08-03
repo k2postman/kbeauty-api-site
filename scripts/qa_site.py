@@ -243,7 +243,13 @@ try:
             e.get("params", {}).get("request", {}).get("url", "")
             for e in cdp.events if e.get("method") == "Network.requestWillBeSent"
         ]
-        external = [u for u in requested if u and not u.startswith(BASE)]
+        external = [
+            u
+            for u in requested
+            if u
+            and urllib.parse.urlparse(u).scheme in {"http", "https"}
+            and not u.startswith(BASE)
+        ]
 
         assert qa["horizontalOverflow"] <= 0, qa
         assert not qa["badImages"], qa

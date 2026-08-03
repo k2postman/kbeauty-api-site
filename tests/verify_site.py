@@ -101,6 +101,22 @@ class YunaSiteContract(unittest.TestCase):
             r"@media \(min-width: 361px\) and \(max-width: 720px\)[\s\S]*?\.video-grid\s*\{[^}]*repeat\(2",
         )
 
+    def test_brand_film_is_accessible_and_local(self) -> None:
+        self.assertIn('id="brand-film"', self.html)
+        self.assertRegex(self.html, r'<video\b[^>]*\bcontrols\b')
+        self.assertRegex(self.html, r'<video\b[^>]*\bpreload="metadata"')
+        self.assertRegex(self.html, r'<video\b[^>]*\bposter="assets/yuna-kbeauty-brand-film-poster\.jpg"')
+        self.assertNotRegex(self.html, r'<video\b[^>]*\bautoplay\b')
+        self.assertIn('src="assets/yuna-kbeauty-brand-film.mp4"', self.html)
+        self.assertIn('href="assets/yuna-kbeauty-brand-film-transcript.txt"', self.html)
+        for name in (
+            "assets/yuna-kbeauty-brand-film.mp4",
+            "assets/yuna-kbeauty-brand-film-poster.jpg",
+            "assets/yuna-kbeauty-brand-film-transcript.txt",
+        ):
+            self.assertTrue((ROOT / name).is_file(), name)
+        self.assertRegex(self.css, r"\.brand-film-player\s+video\s*\{[^}]*width:\s*100%")
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

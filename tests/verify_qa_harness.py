@@ -50,6 +50,10 @@ class QAHarnessContract(unittest.TestCase):
         self.assertIn("except subprocess.TimeoutExpired:", source)
         self.assertRegex(source, r"proc\.kill\(\)\s+proc\.wait\(timeout=5\)")
 
+    def test_external_request_gate_ignores_browser_internal_data_urls(self) -> None:
+        source = HARNESS.read_text(encoding="utf-8")
+        self.assertIn('urllib.parse.urlparse(u).scheme in {"http", "https"}', source)
+
 
 if __name__ == "__main__":
     unittest.main(verbosity=2)

@@ -11,6 +11,7 @@ https://k2postman.github.io/kbeauty-api-site/
 ```bash
 python tests/verify_site.py
 python tests/verify_qa_harness.py
+python scripts/verify_brand_film.py
 python scripts/qa_site.py
 ```
 
